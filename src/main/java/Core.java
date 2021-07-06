@@ -1,5 +1,22 @@
 public class Core {
+
+    public static int difficulty;
+    private static Writer writer;
+
+
+
+
+
     public static void main(String[] args) {
-        System.out.println("Ciao");
+
+
+        Creator creator = new Creator(6);
+
+
+
+
+
+
+
     }
 }
