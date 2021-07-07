@@ -65,6 +65,7 @@ public class Creator {
         distance = 0;
         while (distance<distanceMax){
             //space
+            random = new Random();
             distanceTmp = 2 + random.nextInt(30);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
@@ -72,11 +73,18 @@ public class Creator {
             }
 
             //length
+            random = new Random();
             distanceTmp = 2 + random.nextInt(30);
+            distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsI.add(Boolean.TRUE);
             }
 
+        }
+
+        //checking that platform starts at at least 10 m
+        for (int d = 0; d<10; d++){
+            platformsI.add(d, false);
         }
 
 
@@ -84,7 +92,7 @@ public class Creator {
         distance = 0;
         while (distance<distanceMax){
             //space
-            distanceTmp = random.nextInt(30);
+            distanceTmp = 2 + random.nextInt(5);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsII.add(Boolean.FALSE);
@@ -92,12 +100,16 @@ public class Creator {
 
             //length
             distanceTmp = random.nextInt(30);
-
-
+            distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsII.add(Boolean.TRUE);
             }
 
+        }
+
+        //checking that platform starts at at least 10 m
+        for (int d = 0; d<10; d++){
+            platformsII.add(d, false);
         }
 
         //checking that under each start of a platformII there is a platform I
@@ -108,16 +120,15 @@ public class Creator {
         distance = 0;
         while (distance<distanceMax){
             //space
-            distanceTmp = 5+random.nextInt(30);
+            distanceTmp = 5+random.nextInt(10);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 grounds.add(Boolean.FALSE);
             }
 
             //length
-            distanceTmp = 5+random.nextInt(30);
-
-
+            distanceTmp = 5+random.nextInt(10);
+            distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 grounds.add(Boolean.TRUE);
             }
@@ -155,10 +166,10 @@ public class Creator {
 
 
         System.out.println(level);
-        System.out.println(enemies);
+        //System.out.println(enemies);
         System.out.println(grounds);
         System.out.println(platformsI);
-        System.out.println(platformsII);
+        //System.out.println(platformsII);
 
         parsing(level);
 
@@ -213,7 +224,7 @@ public class Creator {
 
                 }
             }else{
-                if (grounds.get(distance)){
+                if (booleans.get(distance)){
                     space = false;
                     counter++;
                     position = (double) distance;
@@ -243,6 +254,7 @@ public class Creator {
 
     private Double littleRandom(double position) {
         Random random = new Random();
-        return (double) Math.round((position - 0.5 + random.nextDouble())*100) / 100;
+        //return (double) Math.round((position - 0.5 + random.nextDouble())*100) / 100;
+        return  position;
     }
 }

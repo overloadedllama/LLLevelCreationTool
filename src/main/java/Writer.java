@@ -71,7 +71,7 @@ public class Writer {
 
         object.put("levels", levels);
 
-        try (FileWriter file = new FileWriter("game.json")){
+        try (FileWriter file = new FileWriter("C:\\Users\\Giacomo\\OneDrive\\LeapingLlama\\android\\assets\\game.json")){
             file.write(object.toJSONString());
         } catch (IOException e){
             e.printStackTrace();
