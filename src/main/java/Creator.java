@@ -65,14 +65,14 @@ public class Creator {
         distance = 0;
         while (distance<distanceMax){
             //space
-            distanceTmp = random.nextInt(30);
+            distanceTmp = 2 + random.nextInt(30);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsI.add(Boolean.FALSE);
             }
 
             //length
-            distanceTmp = random.nextInt(30);
+            distanceTmp = 2 + random.nextInt(30);
             for (int d = 0; d<distanceTmp; d++) {
                 platformsI.add(Boolean.TRUE);
             }
@@ -108,14 +108,14 @@ public class Creator {
         distance = 0;
         while (distance<distanceMax){
             //space
-            distanceTmp = random.nextInt(30);
+            distanceTmp = 5+random.nextInt(30);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 grounds.add(Boolean.FALSE);
             }
 
             //length
-            distanceTmp = random.nextInt(30);
+            distanceTmp = 5+random.nextInt(30);
 
 
             for (int d = 0; d<distanceTmp; d++) {
@@ -181,7 +181,7 @@ public class Creator {
 
         ArrayList<Double> listMoneyQty = new ArrayList<>();
         ArrayList<Double> listAmmoQty = new ArrayList<>();
-*/
+        */
 
         parseArray(enemies, listEnemies);
         parseArray(grounds, listGrounds, listGroundsLength);
@@ -228,12 +228,11 @@ public class Creator {
 
     private void parseArray(ArrayList<Boolean> booleans, ArrayList<Double> positions) {
         distance = 0;
-        double position = (double) distance;
 
         while (distance<distanceMax){
 
             if(booleans.get(distance)){
-                positions.add(littleRandom(position));
+                positions.add(littleRandom(distance));
             }
 
             distance++;
@@ -244,6 +243,6 @@ public class Creator {
 
     private Double littleRandom(double position) {
         Random random = new Random();
-        return position - 0.5 + random.nextDouble();
+        return (double) Math.round((position - 0.5 + random.nextDouble())*100) / 100;
     }
 }

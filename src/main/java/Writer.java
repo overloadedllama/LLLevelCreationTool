@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Writer {
@@ -41,15 +42,17 @@ public class Writer {
 
         levelInfo = new JSONObject();
 
-        levelInfo.put("enemies", new JSONArray().addAll(enemies));
+        levelInfo.put("enemies",(Object)enemies );
 
-        levelInfo.put("grounds", new JSONArray().addAll(grounds));
-        levelInfo.put("platformI", new JSONArray().addAll(platformsI));
-        levelInfo.put("platformII", new JSONArray().addAll(platformsII));
+        levelInfo.put("grounds", (Object)grounds);
+        levelInfo.put("groundsLength", (Object)groundsLength);
 
-        levelInfo.put("groundsLength", new JSONArray().addAll(groundsLength));
-        levelInfo.put("platformILength", new JSONArray().addAll(platformsILength));
-        levelInfo.put("platformIILength", new JSONArray().addAll(platformsIILength));
+        levelInfo.put("platformI", (Object)platformsI);
+        levelInfo.put("platformILength", (Object)platformsILength);
+
+
+        levelInfo.put("platformII", (Object)platformsII);
+        levelInfo.put("platformIILength", (Object)platformsIILength);
 
 
         levels.put(String.valueOf(levelNumber), levelInfo);
