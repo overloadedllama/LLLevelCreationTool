@@ -1,6 +1,7 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,15 +64,17 @@ public class Writer {
 
 
     public void  write(){
+
+
+        object.put("levels", levels);
+
         try (FileWriter file = new FileWriter("game.json")){
             file.write(object.toJSONString());
         } catch (IOException e){
             e.printStackTrace();
         }
 
-        object.put("levels", levels);
-
-
+        System.out.print(object);
 
 
 
