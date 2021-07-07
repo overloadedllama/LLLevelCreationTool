@@ -21,7 +21,7 @@ public class Creator {
 
 
     double distanceMax;
-    double distance = 0;
+    int distance = 0;
     double distanceTmp;
 
     Writer writer;
@@ -38,7 +38,7 @@ public class Creator {
 
 
 
-
+        writer.write();
     }
 
     private void createLevel(int level) {
@@ -140,9 +140,12 @@ public class Creator {
         distance = 0;
 
         for (int d = 0; d<distanceMax; d++){
-            if (!enemies.get(d) && !enemies.get(d)){
-                grounds.add(d, Boolean.TRUE);
+            if (random.nextDouble()>0.95){
+                enemies.add(true);
             }
+            else
+                enemies.add(false);
+
         }
 
 
@@ -152,6 +155,7 @@ public class Creator {
 
 
         System.out.println(level);
+        System.out.println(enemies);
         System.out.println(grounds);
         System.out.println(platformsI);
         System.out.println(platformsII);
@@ -161,5 +165,85 @@ public class Creator {
     }
 
     void parsing(int level) {
+
+        ArrayList<Double> listEnemies = new ArrayList<>();
+
+        ArrayList<Double> listGrounds = new ArrayList<>();
+        ArrayList<Double> listPlatformsI = new ArrayList<>();
+        ArrayList<Double> listPlatformsII = new ArrayList<>();
+
+        ArrayList<Double> listGroundsLength = new ArrayList<>();
+        ArrayList<Double> listPlatformsILength = new ArrayList<>();
+        ArrayList<Double> listPlatformsIILength = new ArrayList<>();
+
+       /* ArrayList<Double> listMoney = new ArrayList<>();
+        ArrayList<Double> listAmmo = new ArrayList<>();
+
+        ArrayList<Double> listMoneyQty = new ArrayList<>();
+        ArrayList<Double> listAmmoQty = new ArrayList<>();
+*/
+
+        parseArray(enemies, listEnemies);
+        parseArray(grounds, listGrounds, listGroundsLength);
+        parseArray(platformsI, listPlatformsI, listPlatformsILength);
+        parseArray(platformsII, listPlatformsII, listPlatformsIILength);
+
+        writer.newLevel(String.valueOf(level), listEnemies, listGrounds, listPlatformsI, listPlatformsII, listGroundsLength, listPlatformsILength, listPlatformsIILength);
+
+    }
+
+    private void parseArray(ArrayList<Boolean> booleans, ArrayList<Double> positions, ArrayList<Double> lengths) {
+        distance = 0;
+        double counter = 0.0;
+        double position = (double) distance;
+        boolean space = false;
+
+        while (distance<distanceMax){
+
+            if(!space){
+                if (booleans.get(distance)){
+                    counter++;
+                }else{
+                    space=true;
+
+                    positions.add(littleRandom(position));
+                    lengths.add(littleRandom(counter));
+
+                    counter=0;
+
+                }
+            }else{
+                if (grounds.get(distance)){
+                    space = false;
+                    counter++;
+                    position = (double) distance;
+                }
+            }
+
+            distance++;
+
+        }
+
+    }
+
+    private void parseArray(ArrayList<Boolean> booleans, ArrayList<Double> positions) {
+        distance = 0;
+        double position = (double) distance;
+
+        while (distance<distanceMax){
+
+            if(booleans.get(distance)){
+                positions.add(littleRandom(position));
+            }
+
+            distance++;
+
+        }
+
+    }
+
+    private Double littleRandom(double position) {
+        Random random = new Random();
+        return position - 0.5 + random.nextDouble();
     }
 }
