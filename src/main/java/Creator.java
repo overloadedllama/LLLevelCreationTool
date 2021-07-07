@@ -1,23 +1,21 @@
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Creator {
 
-    ArrayList<Double> enemies = new ArrayList<>();
+    ArrayList<Boolean> enemies;
 
-    ArrayList<Double> grounds = new ArrayList<>();
-    ArrayList<Double> platformsI = new ArrayList<>();
-    ArrayList<Double> platformsII = new ArrayList<>();
+    ArrayList<Boolean> grounds;
+    ArrayList<Boolean> platformsI;
+    ArrayList<Boolean> platformsII;
 
-    ArrayList<Double> groundsLength = new ArrayList<>();
-    ArrayList<Double> platformsILength = new ArrayList<>();
-    ArrayList<Double> platformsIILength = new ArrayList<>();
+    ArrayList<Boolean> money;
+    ArrayList<Boolean> ammo;
 
-    ArrayList<Double> money = new ArrayList<>();
-    ArrayList<Double> ammo = new ArrayList<>();
-
-    ArrayList<Double> moneyQty = new ArrayList<>();
-    ArrayList<Double> ammoQty = new ArrayList<>();
+    ArrayList<Integer> moneyQty;
+    ArrayList<Integer> ammoQty;
 
     int levels;
 
@@ -26,73 +24,142 @@ public class Creator {
     double distance = 0;
     double distanceTmp;
 
+    Writer writer;
+
     public Creator(int levels) {
         this.levels = levels;
+
+
+        writer = new Writer();
 
         for (int level = 0; level < levels; level++){
             createLevel(level);
         }
+
+
+
+
     }
 
     private void createLevel(int level) {
-        distanceMax = 200+50*level;
+        enemies = new ArrayList<>();
+
+        grounds = new ArrayList<>();
+        platformsI = new ArrayList<>();
+        platformsII = new ArrayList<>();
+
+        money = new ArrayList<>();
+        ammo = new ArrayList<>();
+
+        moneyQty = new ArrayList<>();
+        ammoQty = new ArrayList<>();
+
+
+
+        distanceMax = 300+50*level;
 
         Random random = new Random();
 
 
-        //platform I
+        //randomization of platform I
         distance = 0;
         while (distance<distanceMax){
             //space
             distanceTmp = random.nextInt(30);
             distance+=distanceTmp;
-            platformsI.add(distance);
+            for (int d = 0; d<distanceTmp; d++) {
+                platformsI.add(Boolean.FALSE);
+            }
 
             //length
             distanceTmp = random.nextInt(30);
-            distance+=distanceTmp;
-            platformsILength.add(distanceTmp);
+            for (int d = 0; d<distanceTmp; d++) {
+                platformsI.add(Boolean.TRUE);
+            }
 
         }
 
 
-        //platform II
+        //randomization of platform II
         distance = 0;
         while (distance<distanceMax){
-
-
             //space
             distanceTmp = random.nextInt(30);
             distance+=distanceTmp;
-            platformsII.add(distance);
+            for (int d = 0; d<distanceTmp; d++) {
+                platformsII.add(Boolean.FALSE);
+            }
 
             //length
             distanceTmp = random.nextInt(30);
-            distance+=distanceTmp;
-            platformsIILength.add(distanceTmp);
+
+
+            for (int d = 0; d<distanceTmp; d++) {
+                platformsII.add(Boolean.TRUE);
+            }
 
         }
 
-        //grounds
+        //checking that under each start of a platformII there is a platform I
+
+        //todo
+
+        //randomization of grounds
         distance = 0;
         while (distance<distanceMax){
-
-
             //space
             distanceTmp = random.nextInt(30);
             distance+=distanceTmp;
-            grounds.add(distance);
+            for (int d = 0; d<distanceTmp; d++) {
+                grounds.add(Boolean.FALSE);
+            }
 
             //length
             distanceTmp = random.nextInt(30);
-            distance+=distanceTmp;
-            groundsLength.add(distanceTmp);
 
+
+            for (int d = 0; d<distanceTmp; d++) {
+                grounds.add(Boolean.TRUE);
+            }
+
+
+        }
+
+        //checking that there's ground where there isn't any platform
+
+        distance = 0;
+
+        for (int d = 0; d<distanceMax; d++){
+            if (!platformsI.get(d) && !platformsII.get(d)){
+                grounds.add(d, Boolean.TRUE);
+            }
+        }
+
+        //randomization of enemies
+
+        distance = 0;
+
+        for (int d = 0; d<distanceMax; d++){
+            if (!enemies.get(d) && !enemies.get(d)){
+                grounds.add(d, Boolean.TRUE);
+            }
         }
 
 
 
 
 
+
+
+        System.out.println(level);
+        System.out.println(grounds);
+        System.out.println(platformsI);
+        System.out.println(platformsII);
+
+        parsing(level);
+
+    }
+
+    void parsing(int level) {
     }
 }
