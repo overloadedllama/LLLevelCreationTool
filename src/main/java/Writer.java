@@ -24,25 +24,29 @@ public class Writer {
 
     public void newLevel(String levelNumber,
                          ArrayList<Double> enemies,
+                         ArrayList<Double> obstacles,
                          ArrayList<Double> grounds,
                          ArrayList<Double> platformsI,
                          ArrayList<Double> platformsII,
 
                          ArrayList<Double> groundsLength,
                          ArrayList<Double> platformsILength,
-                         ArrayList<Double> platformsIILength
+                         ArrayList<Double> platformsIILength,
 
-                         //ArrayList<Double> money,
-                         //ArrayList<Double> ammo,
+                         ArrayList<Double> coins,
+                         ArrayList<Double> ammo,
 
-                         //ArrayList<Double> moneyQty,
-                         //ArrayList<Double> ammoQty
+                         ArrayList<Double> coinsNum,
+                         ArrayList<Double> ammoNum,
+
+                         int levelLength
                         ){
 
 
         levelInfo = new JSONObject();
 
         levelInfo.put("enemies",(Object)enemies );
+        levelInfo.put("obstacles", (Object)obstacles);
 
         levelInfo.put("grounds", (Object)grounds);
         levelInfo.put("groundsLength", (Object)groundsLength);
@@ -53,6 +57,16 @@ public class Writer {
 
         levelInfo.put("platformII", (Object)platformsII);
         levelInfo.put("platformIILength", (Object)platformsIILength);
+        levelInfo.put("levelLength", levelLength);
+
+
+
+        levelInfo.put("coins", (Object)coins);
+        levelInfo.put("coinsNum", (Object)coinsNum);
+
+        levelInfo.put("ammo", (Object)ammo);
+        levelInfo.put("ammoNum", (Object)ammoNum);
+
 
 
         levels.put(String.valueOf(levelNumber), levelInfo);
@@ -66,17 +80,18 @@ public class Writer {
 
 
 
-    public void  write(){
+    public void  write(String savePath){
 
 
         object.put("levels", levels);
 
-        try (FileWriter file = new FileWriter("C:\\Users\\Giacomo\\OneDrive\\LeapingLlama\\android\\assets\\game.json")){
+        /*try (FileWriter file = new FileWriter(savePath)){
             file.write(object.toJSONString());
         } catch (IOException e){
             e.printStackTrace();
+            System.out.println("Error during the opening of the json");
         }
-
+*/
         System.out.print(object);
 
 

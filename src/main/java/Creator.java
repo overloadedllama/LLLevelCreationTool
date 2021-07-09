@@ -6,7 +6,7 @@ import java.util.Random;
 public class Creator {
 
     ArrayList<Boolean> enemies;
-
+    ArrayList<Boolean> obstacles;
     ArrayList<Boolean> grounds;
     ArrayList<Boolean> platformsI;
     ArrayList<Boolean> platformsII;
@@ -20,13 +20,13 @@ public class Creator {
     int levels;
 
 
-    double distanceMax;
+    int distanceMax;
     int distance = 0;
     double distanceTmp;
 
     Writer writer;
 
-    public Creator(int levels) {
+    public Creator(int levels, String savePath) {
         this.levels = levels;
 
 
@@ -38,8 +38,10 @@ public class Creator {
 
 
 
-        writer.write();
+        writer.write(savePath);
     }
+
+    
 
     private void createLevel(int level) {
         enemies = new ArrayList<>();
@@ -66,7 +68,7 @@ public class Creator {
         while (distance<distanceMax){
             //space
             random = new Random();
-            distanceTmp = 2 + random.nextInt(30);
+            distanceTmp = 10 + random.nextInt(10);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsI.add(Boolean.FALSE);
@@ -74,7 +76,7 @@ public class Creator {
 
             //length
             random = new Random();
-            distanceTmp = 2 + random.nextInt(30);
+            distanceTmp = 2 + random.nextInt(4);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsI.add(Boolean.TRUE);
@@ -92,14 +94,14 @@ public class Creator {
         distance = 0;
         while (distance<distanceMax){
             //space
-            distanceTmp = 2 + random.nextInt(5);
+            distanceTmp = 50 + random.nextInt(50);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsII.add(Boolean.FALSE);
             }
 
             //length
-            distanceTmp = random.nextInt(30);
+            distanceTmp = random.nextInt(2) + 1;
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 platformsII.add(Boolean.TRUE);
@@ -127,7 +129,7 @@ public class Creator {
             }
 
             //length
-            distanceTmp = 5+random.nextInt(10);
+            distanceTmp = 2+random.nextInt(20);
             distance+=distanceTmp;
             for (int d = 0; d<distanceTmp; d++) {
                 grounds.add(Boolean.TRUE);
@@ -141,7 +143,7 @@ public class Creator {
         distance = 0;
 
         for (int d = 0; d<distanceMax; d++){
-            if (!platformsI.get(d) && !platformsII.get(d)){
+            if (!platformsI.get(d)){
                 grounds.add(d, Boolean.TRUE);
             }
         }
@@ -159,10 +161,40 @@ public class Creator {
 
         }
 
+        //randomization of obstacles
+        for (int d = 0; d<distanceMax; d++){
+            if (random.nextDouble()>0.95){
+                obstacles.add(true);
+            }
+            else
+                obstacles.add(false);
+
+        }
 
 
+        //randomization of money
 
+        for (int d = 0; d<distanceMax; d++){
+            if (random.nextDouble()>0.97){
+                money.add(true);
+                moneyQty.add(random.nextInt(2)+1);
+            }
+            else
+                money.add(false);
 
+        }
+
+        //randomization of ammo
+
+        for (int d = 0; d<distanceMax; d++){
+            if (random.nextDouble()>0.97){
+                ammo.add(true);
+                ammoQty.add(random.nextInt(5)+1);
+            }
+            else
+                ammo.add(false);
+
+        }
 
 
         System.out.println(level);
@@ -171,14 +203,14 @@ public class Creator {
         System.out.println(platformsI);
         //System.out.println(platformsII);
 
-        parsing(level);
+        parsing(level, distanceMax);
 
     }
 
-    void parsing(int level) {
+    void parsing(int level, int levelLength) {
 
         ArrayList<Double> listEnemies = new ArrayList<>();
-
+        ArrayList<Double> listObstacles = new ArrayList<>();
         ArrayList<Double> listGrounds = new ArrayList<>();
         ArrayList<Double> listPlatformsI = new ArrayList<>();
         ArrayList<Double> listPlatformsII = new ArrayList<>();
@@ -187,19 +219,24 @@ public class Creator {
         ArrayList<Double> listPlatformsILength = new ArrayList<>();
         ArrayList<Double> listPlatformsIILength = new ArrayList<>();
 
-       /* ArrayList<Double> listMoney = new ArrayList<>();
+        ArrayList<Double> listMoney = new ArrayList<>();
         ArrayList<Double> listAmmo = new ArrayList<>();
 
-        ArrayList<Double> listMoneyQty = new ArrayList<>();
-        ArrayList<Double> listAmmoQty = new ArrayList<>();
-        */
+        ArrayList<Double> listMoneyNum = new ArrayList<>();
+        ArrayList<Double> listAmmoNum = new ArrayList<>();
+
 
         parseArray(enemies, listEnemies);
+        parseArray(obstacles, listObstacles);
+        parseArray(money, listMoney);
+        parseArray(ammo, listAmmo);
+
         parseArray(grounds, listGrounds, listGroundsLength);
         parseArray(platformsI, listPlatformsI, listPlatformsILength);
         parseArray(platformsII, listPlatformsII, listPlatformsIILength);
 
-        writer.newLevel(String.valueOf(level), listEnemies, listGrounds, listPlatformsI, listPlatformsII, listGroundsLength, listPlatformsILength, listPlatformsIILength);
+
+        writer.newLevel(String.valueOf(level), listObstacles, listEnemies, listGrounds, listPlatformsI, listPlatformsII, listGroundsLength, listPlatformsILength, listPlatformsIILength, listMoney, listAmmo, listMoneyNum, listAmmoNum, levelLength);
 
     }
 
@@ -207,25 +244,28 @@ public class Creator {
         distance = 0;
         double counter = 0.0;
         double position = (double) distance;
-        boolean space = false;
+        boolean isEmpty = false;
 
         while (distance<distanceMax){
 
-            if(!space){
+            if(!isEmpty){
                 if (booleans.get(distance)){
                     counter++;
                 }else{
-                    space=true;
+                    isEmpty=true;
 
-                    positions.add(littleRandom(position));
-                    lengths.add(littleRandom(counter));
+                    if (counter>0){
+                        positions.add(littleRandom(position));
+
+                         lengths.add(littleRandom(counter));
+                    }
 
                     counter=0;
 
                 }
             }else{
                 if (booleans.get(distance)){
-                    space = false;
+                    isEmpty = false;
                     counter++;
                     position = (double) distance;
                 }
