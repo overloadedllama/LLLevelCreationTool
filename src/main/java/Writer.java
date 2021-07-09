@@ -36,8 +36,8 @@ public class Writer {
                          ArrayList<Double> coins,
                          ArrayList<Double> ammo,
 
-                         ArrayList<Double> coinsNum,
-                         ArrayList<Double> ammoNum,
+                         ArrayList<Integer> coinsNum,
+                         ArrayList<Integer> ammoNum,
 
                          int levelLength
                         ){

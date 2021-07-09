@@ -56,6 +56,7 @@ public class Creator {
         moneyQty = new ArrayList<>();
         ammoQty = new ArrayList<>();
 
+        obstacles = new ArrayList<>();
 
 
         distanceMax = 300+50*level;
@@ -222,8 +223,8 @@ public class Creator {
         ArrayList<Double> listMoney = new ArrayList<>();
         ArrayList<Double> listAmmo = new ArrayList<>();
 
-        ArrayList<Double> listMoneyNum = new ArrayList<>();
-        ArrayList<Double> listAmmoNum = new ArrayList<>();
+        ArrayList<Integer> listMoneyNum = new ArrayList<>();
+        ArrayList<Integer> listAmmoNum = new ArrayList<>();
 
 
         parseArray(enemies, listEnemies);
@@ -234,6 +235,9 @@ public class Creator {
         parseArray(grounds, listGrounds, listGroundsLength);
         parseArray(platformsI, listPlatformsI, listPlatformsILength);
         parseArray(platformsII, listPlatformsII, listPlatformsIILength);
+
+        listAmmoNum.addAll(ammoQty);
+        listMoneyNum.addAll(moneyQty);
 
 
         writer.newLevel(String.valueOf(level), listObstacles, listEnemies, listGrounds, listPlatformsI, listPlatformsII, listGroundsLength, listPlatformsILength, listPlatformsIILength, listMoney, listAmmo, listMoneyNum, listAmmoNum, levelLength);

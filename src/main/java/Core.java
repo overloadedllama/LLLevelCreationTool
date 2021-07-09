@@ -10,7 +10,7 @@ public class Core {
     public static void main(String[] args) {
 
 
-        Creator creator = new Creator(6, "C:\\Users\\Giova\\Desktop\\game.json");
+        Creator creator = new Creator(6, args[0]);
 
 
 
