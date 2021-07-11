@@ -117,7 +117,14 @@ public class Creator {
 
         //checking that under each start of a platformII there is a platform I
 
-        //todo
+
+        for (int d = 3; d<distanceMax; d++){
+            if (platformsII.get(d)){
+                platformsI.add(d-1, Boolean.TRUE);
+                platformsI.add(d-2, Boolean.TRUE);
+
+            }
+        }
 
         //randomization of grounds
         distance = 0;
@@ -307,7 +314,7 @@ public class Creator {
 
     private Double littleRandom(double position) {
         Random random = new Random();
-        //return (double) Math.round((position - 0.5 + random.nextDouble())*100) / 100;
+        //todo return (double) Math.round((position - 0.5 + random.nextDouble())*100) / 100;
         return  position;
     }
 }
