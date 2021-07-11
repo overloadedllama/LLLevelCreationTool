@@ -185,6 +185,11 @@ public class Creator {
 
         }
 
+        //checking that money starts at at least 3 m
+        for (int d = 0; d<3; d++){
+            money.add(d, false);
+        }
+
         //randomization of ammo
 
         for (int d = 0; d<distanceMax; d++){
@@ -197,6 +202,10 @@ public class Creator {
 
         }
 
+        //checking that ammo starts at at least 3 m
+        for (int d = 0; d<3; d++){
+            ammo.add(d, false);
+        }
 
         System.out.println(level);
         //System.out.println(enemies);

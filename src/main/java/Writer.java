@@ -85,13 +85,13 @@ public class Writer {
 
         object.put("levels", levels);
 
-        /*try (FileWriter file = new FileWriter(savePath)){
+        try (FileWriter file = new FileWriter(savePath)){
             file.write(object.toJSONString());
         } catch (IOException e){
             e.printStackTrace();
             System.out.println("Error during the opening of the json");
         }
-*/
+
         System.out.print(object);
 
 
