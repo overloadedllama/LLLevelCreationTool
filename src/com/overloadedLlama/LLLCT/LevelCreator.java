@@ -1,5 +1,8 @@
+package com.overloadedLlama.LLLCT;
+
 import java.util.ArrayList;
 import java.util.Random;
+
 
 public class LevelCreator {
 
@@ -18,9 +21,11 @@ public class LevelCreator {
     private int level;
 
 
-    private int distanceMax;
+    private final int distanceMax;
     private int distance = 0;
     private double distanceTmp;
+
+    private float difficulty;
 
 
     private ArrayList<Double> listEnemies = new ArrayList<>();
@@ -39,17 +44,20 @@ public class LevelCreator {
     private ArrayList<Integer> listMoneyNum = new ArrayList<>();
     private ArrayList<Integer> listAmmoNum = new ArrayList<>();
 
-
-    public LevelCreator(int level) {
+    int d = 0;
+    public LevelCreator(int level, int minLevelLength, int scalingLevelLength, float difficulty) {
         this.level = level;
-        createLevel(level);
+        this.difficulty = difficulty;
+        distanceMax = minLevelLength + scalingLevelLength * (level + 1);
+
+        createLevel(level, minLevelLength, scalingLevelLength);
 
 
     }
 
 
 
-    private void createLevel(int level) {
+    private void createLevel(int level, int minLevelLength, int scalingLevelLength) {
         enemies = new ArrayList<>();
 
         grounds = new ArrayList<>();
@@ -65,7 +73,7 @@ public class LevelCreator {
         obstacles = new ArrayList<>();
 
 
-        distanceMax = 50+50*level;
+
 
         Random random = new Random();
 
@@ -85,15 +93,15 @@ public class LevelCreator {
             random = new Random();
             distanceTmp = 2 + random.nextInt(4);
             distance+=distanceTmp;
-            for (int d = 0; d<distanceTmp; d++) {
+            for ( d = 0; d<distanceTmp; d++) {
                 platformsI.add(Boolean.TRUE);
             }
 
         }
 
         //checking that platform starts at at least 10 m
-        for (int d = 0; d<10; d++){
-            platformsI.add(d, false);
+        for ( d = 0; d<10; d++){
+            platformsI.set(d, false);
         }
 
 
@@ -103,31 +111,31 @@ public class LevelCreator {
             //space
             distanceTmp = 50 + random.nextInt(50);
             distance+=distanceTmp;
-            for (int d = 0; d<distanceTmp; d++) {
+            for ( d = 0; d<distanceTmp; d++) {
                 platformsII.add(Boolean.FALSE);
             }
 
             //length
             distanceTmp = random.nextInt(2) + 1;
             distance+=distanceTmp;
-            for (int d = 0; d<distanceTmp; d++) {
+            for ( d = 0; d<distanceTmp; d++) {
                 platformsII.add(Boolean.TRUE);
             }
 
         }
 
         //checking that platform starts at at least 10 m
-        for (int d = 0; d<10; d++){
-            platformsII.add(d, false);
+        for ( d = 0; d<10; d++){
+            platformsII.set(d, false);
         }
 
         //checking that under each start of a platformII there is a platform I
 
 
-        for (int d = 3; d<distanceMax; d++){
+        for ( d = 3; d<distanceMax; d++){
             if (platformsII.get(d)){
-                platformsI.add(d-1, Boolean.TRUE);
-                platformsI.add(d-2, Boolean.TRUE);
+                platformsI.set(d-1, Boolean.TRUE);
+                platformsI.set(d-2, Boolean.TRUE);
 
             }
         }
@@ -138,36 +146,34 @@ public class LevelCreator {
             //space
             distanceTmp = 5+random.nextInt(10);
             distance+=distanceTmp;
-            for (int d = 0; d<distanceTmp; d++) {
+            for ( d = 0; d<distanceTmp; d++) {
                 grounds.add(Boolean.FALSE);
             }
 
             //length
             distanceTmp = 2+random.nextInt(20);
             distance+=distanceTmp;
-            for (int d = 0; d<distanceTmp; d++) {
+            for ( d = 0; d<distanceTmp; d++) {
                 grounds.add(Boolean.TRUE);
             }
 
 
         }
 
-        //checking that there's ground where there isn't any platform
+        //checking that there's ground where there isn't any platform 1
 
-        distance = 0;
-
-        for (int d = 0; d<distanceMax; d++){
+        for (d= 0; d<distanceMax; d++){
             if (!platformsI.get(d)){
-                grounds.add(d, Boolean.TRUE);
+                grounds.set(d, Boolean.TRUE);
             }
         }
 
+
         //randomization of enemies
 
-        distance = 0;
 
-        for (int d = 0; d<distanceMax; d++){
-            if (random.nextDouble()>0.95){
+        for ( d = 0; d<distanceMax; d++){
+            if (random.nextDouble()>1-difficulty){
                 enemies.add(true);
             }
             else
@@ -175,9 +181,22 @@ public class LevelCreator {
 
         }
 
+        //checking that enemies starts at at least 15 m
+        for ( d = 0; d<15; d++){
+            enemies.set(d, false);
+        }
+
+        //checking that each enemy is at least 1 meter away from each other enemy
+        for ( d= 0; d<distanceMax-1; d++){
+            if (enemies.get(d)){
+                enemies.set(d+1, false);
+            }
+        }
+
+
         //randomization of obstacles
-        for (int d = 0; d<distanceMax; d++){
-            if (random.nextDouble()>0.95){
+        for ( d = 0; d<distanceMax; d++){
+            if (random.nextDouble()>1-difficulty/2){
                 obstacles.add(true);
             }
             else
@@ -185,11 +204,22 @@ public class LevelCreator {
 
         }
 
+        //checking that obstacle starts at at least 15 m
+        for ( d = 0; d<15; d++){
+            obstacles.set(d, false);
+        }
+
+        //checking that obstacle and enemies don't overlap
+        for ( d= 0; d<distanceMax-1; d++){
+            if (enemies.get(d) || enemies.get(d+1)){
+                obstacles.set(d, false);
+            }
+        }
 
         //randomization of money
 
-        for (int d = 0; d<distanceMax; d++){
-            if (random.nextDouble()>0.97){
+        for ( d = 0; d<distanceMax; d++){
+            if (random.nextDouble()>1-difficulty){
                 money.add(true);
                 moneyQty.add(random.nextInt(2)+1);
             }
@@ -199,14 +229,14 @@ public class LevelCreator {
         }
 
         //checking that money starts at at least 3 m
-        for (int d = 0; d<3; d++){
-            money.add(d, false);
+        for ( d = 0; d<3; d++){
+            money.set(d, false);
         }
 
         //randomization of ammo
 
-        for (int d = 0; d<distanceMax; d++){
-            if (random.nextDouble()>0.97){
+        for ( d = 0; d<distanceMax; d++){
+            if (random.nextDouble()>1-difficulty){
                 ammo.add(true);
                 ammoQty.add(random.nextInt(5)+1);
             }
@@ -215,10 +245,6 @@ public class LevelCreator {
 
         }
 
-        //checking that ammo starts at at least 3 m
-        for (int d = 0; d<3; d++){
-            ammo.add(d, false);
-        }
 
         //System.out.println(level);
         //System.out.println(enemies);

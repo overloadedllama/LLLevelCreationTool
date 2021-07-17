@@ -1,3 +1,5 @@
+package com.overloadedLlama.LLLCT;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -55,7 +57,7 @@ public class LevelCreatorWriter {
 
         levelInfo.put("platformII", (Object)platformsII);
         levelInfo.put("platformIILength", (Object)platformsIILength);
-        levelInfo.put("levelLength", levelLength);
+        levelInfo.put("levelLength", levelLength );
 
 
 
